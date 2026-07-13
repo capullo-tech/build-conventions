@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      # Pure metadata - no Android SDK. Proves the catalog is valid TOML and the
+      # version-catalog publication builds (what jitpack runs).
+      - name: Validate + publish the shared catalog to mavenLocal
+        run: ./gradlew publishToMavenLocal --no-daemon
+      # No first-party source here, so (like lib-media3-ffmpeg / lib-tdlib) there is no CodeQL;
+      # instead assert the published artifact is the expected .toml catalog.
+      - name: Assert a .toml catalog was published
+        run: |
+          f=$(find ~/.m2/repository/tech/capullo/buildconventions -name '*.toml' | head -1)
+          test -n "$f" || { echo "no .toml catalog artifact published"; exit 1; }
+          echo "published catalog: $f"
