@@ -45,6 +45,8 @@ kotlinxSerialization = "1.10.0"   # must track the Kotlin serialization plugin
 ktor = "2.3.12"
 media3 = "1.9.0"
 room = "2.8.4"
+# Preferences DataStore, the settings store (QuantumCast, CapulloTube). 1.1.1 is QuantumCast's pin.
+datastore = "1.1.1"
 
 # --- AndroidX / Compose ---
 composeBom = "2026.02.01"
@@ -84,6 +86,9 @@ media3-session = { module = "androidx.media3:media3-session", version.ref = "med
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+# --- Preferences DataStore (settings) ---
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 
 # --- AndroidX core / lifecycle / activity / navigation3 ---
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
